@@ -3,6 +3,7 @@ import { Button, Container, ButtonGroup } from "react-bootstrap";
 import rock from "./rock.png";
 import paper from "./paper.png";
 import scissors from "./scissors.png";
+import defaultImg from "./question.png";
 import React, { useState } from "react";
 
 const shapes = ["rock", "paper", "scissors"];
@@ -25,9 +26,12 @@ function ChoiceCard(props) {
             ? rock
             : props.shape === "paper"
             ? paper
-            : scissors
+            : props.shape === "scissors"
+            ? scissors
+            : defaultImg
         }
         alt={props.shape}
+        width={250}
       />
       <h3>
         {props.result === "win"
@@ -48,6 +52,7 @@ function App() {
   const [playerResult, setPlayerResult] = useState("tie");
   let [playerScore, setPlayerScore] = useState(0);
   let [computerScore, setComputerScore] = useState(0);
+  const [gameHistory, setGameHistory] = useState([]);
   const [Name, setName] = useState("You");
 
   const restart = () => {
@@ -57,6 +62,7 @@ function App() {
     setComputerChoice("");
     setComputerResult("tie");
     setComputerScore(0);
+    setGameHistory([]);
     streak = 0;
   };
   const changeName = (e) => {
@@ -103,6 +109,10 @@ function App() {
     if (computerChoice === playerChoice) {
       setComputerResult("tie");
       setPlayerResult("tie");
+      setGameHistory([
+        ...gameHistory,
+        { winner: "Tie", playerChoice, computerChoice },
+      ]);
     } else if (computerChoice === "rock") {
       if (playerChoice === "paper") {
         if (streak >= 0) {
@@ -118,6 +128,10 @@ function App() {
 
         setComputerResult("loss");
         setPlayerScore(playerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: Name, playerChoice, computerChoice },
+        ]);
       } else {
         if (streak >= 0) {
           streak = streak + 1;
@@ -131,6 +145,10 @@ function App() {
         }
         setPlayerResult("loss");
         setComputerScore(computerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: "Computer", playerChoice, computerChoice },
+        ]);
       }
     } else if (computerChoice === "paper") {
       if (playerChoice === "scissors") {
@@ -146,6 +164,10 @@ function App() {
         }
         setComputerResult("loss");
         setPlayerScore(playerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: Name, playerChoice, computerChoice },
+        ]);
       } else {
         if (streak >= 0) {
           streak = streak + 1;
@@ -159,6 +181,10 @@ function App() {
         }
         setPlayerResult("loss");
         setComputerScore(computerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: "Computer", playerChoice, computerChoice },
+        ]);
       }
     } else {
       if (playerChoice === "rock") {
@@ -174,6 +200,10 @@ function App() {
         }
         setComputerResult("loss");
         setPlayerScore(playerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: Name, playerChoice, computerChoice },
+        ]);
       } else {
         if (streak >= 0) {
           streak = streak + 1;
@@ -187,6 +217,10 @@ function App() {
         }
         setPlayerResult("loss");
         setComputerScore(computerScore + 1);
+        setGameHistory([
+          ...gameHistory,
+          { winner: "Computer", playerChoice, computerChoice },
+        ]);
       }
     }
   };
@@ -234,6 +268,22 @@ function App() {
           </Button>
         </ButtonGroup>
         <Button onClick={restart}> Restart</Button>
+        <ol className="mt-5 alert alert-primary">
+          {playerChoice !== ""
+            ? gameHistory.map((g, index) => {
+                return (
+                  <div key={index}>
+                    Game #{index + 1}
+                    <p>
+                      {" "}
+                      Winner: {g.winner}, PlayerChoice: {g.playerChoice},
+                      ComputerChoice: {g.computerChoice}
+                    </p>
+                  </div>
+                );
+              })
+            : ""}
+        </ol>
       </Container>
     </div>
   );
