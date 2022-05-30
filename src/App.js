@@ -1,20 +1,12 @@
 import "./App.css";
-import {
-  Navbar,
-  Form,
-  InputGroup,
-  FormControl,
-  Button,
-  Container,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Button, Container, ButtonGroup } from "react-bootstrap";
 import rock from "./rock.png";
 import paper from "./paper.png";
 import scissors from "./scissors.png";
 import React, { useState } from "react";
 
 const shapes = ["rock", "paper", "scissors"];
-
+let streak = 0;
 function ChoiceCard(props) {
   return (
     <div
@@ -57,7 +49,6 @@ function App() {
   let [playerScore, setPlayerScore] = useState(0);
   let [computerScore, setComputerScore] = useState(0);
   const [Name, setName] = useState("You");
-  let streak = 0;
 
   const restart = () => {
     setPlayerChoice("");
@@ -66,6 +57,7 @@ function App() {
     setComputerChoice("");
     setComputerResult("tie");
     setComputerScore(0);
+    streak = 0;
   };
   const changeName = (e) => {
     if (e.target.value) {
@@ -75,28 +67,28 @@ function App() {
     }
   };
 
-  function PublicNavbar() {
-    return (
-      <Navbar className="bg-light justify-content-between">
-        <Form inline>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              placeholder="Username"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </InputGroup>
-        </Form>
-        <Form inline>
-          <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-          <Button type="submit">Submit</Button>
-        </Form>
-      </Navbar>
-    );
-  }
+  // function PublicNavbar() {
+  //   return (
+  //     <Navbar className="bg-light justify-content-between">
+  //       <Form inline>
+  //         <InputGroup>
+  //           <InputGroup.Prepend>
+  //             <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+  //           </InputGroup.Prepend>
+  //           <FormControl
+  //             placeholder="Username"
+  //             aria-label="Username"
+  //             aria-describedby="basic-addon1"
+  //           />
+  //         </InputGroup>
+  //       </Form>
+  //       <Form inline>
+  //         <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
+  //         <Button type="submit">Submit</Button>
+  //       </Form>
+  //     </Navbar>
+  //   );
+  // }
   const randomMove = (move) => {
     let newComputerChoice = shapes[Math.floor(Math.random() * 3)];
     // let newPlayerChoice = shapes[Math.floor(Math.random() * 3)];
@@ -114,7 +106,7 @@ function App() {
     } else if (computerChoice === "rock") {
       if (playerChoice === "paper") {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -128,7 +120,7 @@ function App() {
         setPlayerScore(playerScore + 1);
       } else {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -143,7 +135,7 @@ function App() {
     } else if (computerChoice === "paper") {
       if (playerChoice === "scissors") {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -156,7 +148,7 @@ function App() {
         setPlayerScore(playerScore + 1);
       } else {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -171,7 +163,7 @@ function App() {
     } else {
       if (playerChoice === "rock") {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -184,7 +176,7 @@ function App() {
         setPlayerScore(playerScore + 1);
       } else {
         if (streak >= 0) {
-          streak++;
+          streak = streak + 1;
         } else {
           streak = 1;
         }
@@ -197,12 +189,11 @@ function App() {
         setComputerScore(computerScore + 1);
       }
     }
-    console.log(streak);
   };
 
   return (
     <div className="App text-center">
-      <PublicNavbar />
+      {/* <PublicNavbar /> */}
       <Container>
         Username: <input class="m-3" onChange={(e) => changeName(e)}></input>
         <div className="d-flex justify-content-center flex-wrap">
